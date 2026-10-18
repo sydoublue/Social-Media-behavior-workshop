@@ -1,0 +1,15 @@
+# Starter dependencies for the academic Q&A user-behavior scaffold.
+# Versions below were resolved from PyPI on 2026-10-18.
+# No ingest or training code exists yet, so this set has not been used to
+# fit a model or produce a metric. LightGBM is an acceptable substitute for
+# xgboost and is intentionally not pinned here.
+
+numpy==2.5.4
+pandas==3.0.6
+pyarrow==26.0.0
+scikit-learn==1.9.1
+xgboost==3.4.1
+matplotlib==3.11.2
+shap==0.54.1
+pyyaml==6.0.3
+jupyter==1.1.1
