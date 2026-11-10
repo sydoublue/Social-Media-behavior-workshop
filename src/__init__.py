@@ -1,5 +1,5 @@
 """Academic Q&A user-behavior package.
 
-No ingest, panel, feature, label, or training code is implemented yet.
-See ``src/README.md`` for the modules this package is reserved for.
+Typed-edge ingest is implemented in ``src.ingest``. The user-week panel,
+labels, features, and training are not implemented yet.
 """

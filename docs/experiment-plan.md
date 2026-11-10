@@ -2,7 +2,7 @@
 
 Academic and professional Stack Exchange Q&A. Anchor: MathOverflow. Replication: Ask Ubuntu. Optional later replication: Super User.
 
-This document is the study design. It is not a results report. Thresholds below match `configs/default.yaml` and are pre-registered defaults to confirm on the validation split. No split has been computed, because the dumps are not in the repo yet.
+This document is the study design. It is not a results report. Thresholds below match `configs/default.yaml` and are pre-registered defaults to confirm on the validation split. No split has been computed. MathOverflow typed-edge ingest (M1) has been run; the panel has not been built.
 
 ## 1. Problem
 
@@ -280,8 +280,8 @@ No metric in this plan has been measured. A future results section should be a t
 
 | ID | Deliverable | State |
 | --- | --- | --- |
-| M0 | Repo scaffold: plan, data spec, config, layout | this change |
-| M1 | MathOverflow `edges.parquet` and an ingest report that matches SNAP typed counts | not started |
+| M0 | Repo scaffold: plan, data spec, config, layout | done |
+| M1 | MathOverflow `edges.parquet` and an ingest report that matches SNAP typed counts | done |
 | M2 | MathOverflow zero-filled `panel.parquet` | not started |
 | M3 | `labels.parquet` plus the leakage checks in the data spec | not started |
 | M4 | `features.parquet` with the column audit | not started |
@@ -291,4 +291,4 @@ No metric in this plan has been measured. A future results section should be a t
 | M7 | Optional Super User replication | not scheduled |
 | M8 | Write-up from the produced tables | not started |
 
-M1 is the next coding step. The acceptance checks for it are at the end of `docs/data-spec.md`.
+M1 is done. The acceptance checks are at the end of `docs/data-spec.md`. The next coding step is the MathOverflow user-week panel (M2).

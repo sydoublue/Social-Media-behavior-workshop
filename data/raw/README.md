@@ -8,6 +8,8 @@ Download the three **typed** files per platform. The union file (`sx-<site>.txt.
 
 Page: <https://snap.stanford.edu/data/sx-mathoverflow.html>
 
+`python -m src.ingest --platform mathoverflow` downloads the three typed URLs from `configs/default.yaml` when the files are missing. The curls below are the same files.
+
 ```bash
 mkdir -p data/raw/mathoverflow
 curl -L --fail -o data/raw/mathoverflow/sx-mathoverflow-a2q.txt.gz \

@@ -1,13 +1,13 @@
 # Defaults for the academic Q&A user-behavior study.
-# src/ does not load this file yet. When code lands, these values are the
-# contract; docs/data-spec.md and docs/experiment-plan.md should change with it.
+# src/ingest.py loads this file. docs/data-spec.md and docs/experiment-plan.md
+# should change with it.
 # Thresholds marked "confirm on val" are pre-registered placeholders.
 
 schema_version: 1
 
 project:
   course: ELEC 3544
-  status: scaffold
+  status: m1_mathoverflow_ingest
   domain: academic_professional_qa
 
 datasets:
