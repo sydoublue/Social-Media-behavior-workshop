@@ -1,0 +1,148 @@
+# Defaults for the academic Q&A user-behavior study.
+# src/ does not load this file yet. When code lands, these values are the
+# contract; docs/data-spec.md and docs/experiment-plan.md should change with it.
+# Thresholds marked "confirm on val" are pre-registered placeholders.
+
+schema_version: 1
+
+project:
+  course: ELEC 3544
+  status: scaffold
+  domain: academic_professional_qa
+
+datasets:
+  anchor: mathoverflow
+  replication: askubuntu
+  optional:
+    - superuser
+  # Modeling input is the three typed files. The union file sx-<site>.txt.gz
+  # drops edge type and is an optional row-count audit only.
+  platforms:
+    mathoverflow:
+      site_url: https://mathoverflow.net/
+      page_url: https://snap.stanford.edu/data/sx-mathoverflow.html
+      files:
+        a2q: https://snap.stanford.edu/data/sx-mathoverflow-a2q.txt.gz
+        c2q: https://snap.stanford.edu/data/sx-mathoverflow-c2q.txt.gz
+        c2a: https://snap.stanford.edu/data/sx-mathoverflow-c2a.txt.gz
+      published_temporal_edges:
+        a2q: 107581
+        c2q: 203639
+        c2a: 195330
+        union: 506550
+      published_nodes:
+        union: 24818
+        a2q: 21688
+        c2q: 16836
+        c2a: 13840
+    askubuntu:
+      site_url: https://askubuntu.com/
+      page_url: https://snap.stanford.edu/data/sx-askubuntu.html
+      files:
+        a2q: https://snap.stanford.edu/data/sx-askubuntu-a2q.txt.gz
+        c2q: https://snap.stanford.edu/data/sx-askubuntu-c2q.txt.gz
+        c2a: https://snap.stanford.edu/data/sx-askubuntu-c2a.txt.gz
+      published_temporal_edges:
+        a2q: 280102
+        c2q: 327513
+        c2a: 356822
+        union: 964437
+      published_nodes:
+        union: 159316
+        a2q: 137517
+        c2q: 79155
+        c2a: 75555
+    superuser:
+      site_url: https://superuser.com/
+      page_url: https://snap.stanford.edu/data/sx-superuser.html
+      files:
+        a2q: https://snap.stanford.edu/data/sx-superuser-a2q.txt.gz
+        c2q: https://snap.stanford.edu/data/sx-superuser-c2q.txt.gz
+        c2a: https://snap.stanford.edu/data/sx-superuser-c2a.txt.gz
+      published_temporal_edges:
+        a2q: 430033
+        # SNAP's Super User page titles this statistics table sx-mathoverflow-c2q.
+        # The file and these counts are Super User c2q.
+        c2q: 479067
+        c2a: 534239
+        union: 1443339
+      published_nodes:
+        union: 194085
+        a2q: 167981
+        c2q: 94548
+        c2a: 101052
+
+paths:
+  raw_dirname: data/raw
+  processed_dirname: data/processed
+  outputs_dirname: outputs
+
+edge_types: [a2q, c2q, c2a]
+
+time:
+  timezone: UTC
+  # week_start is the Monday (UTC) of the interaction's calendar week.
+  week_anchor: monday
+
+panel:
+  # Panel starts at the user's first week as src or dst.
+  # Panel ends at the platform's last week_start, with silent weeks filled as 0.
+  end: platform_max
+  zero_fill: true
+  # Self-loops remain in edges.parquet and are excluded from weekly counts.
+  count_self_loops_in_weekly_totals: false
+
+windows:
+  # For a row with target week t, every window below ends at t-1.
+  activity_lookback_weeks: 8
+  graph_lookback_weeks: 8
+  label_baseline_weeks: 8
+  min_history_weeks: 8
+
+split:
+  method: time
+  by: target_week
+  train: 0.70
+  val: 0.15
+  test: 0.15
+  # n_train = floor(train * n_weeks); n_val = floor(val * n_weeks); test is the rest.
+  rounding: floor_train_val_remainder_test
+
+labels:
+  regression:
+    name: inbound_change
+    formula: in_total(t) - in_total(t-1)
+  anomaly:
+    # primary_method is zscore. quantile is the pre-registered alternative.
+    primary_method: zscore
+    direction: positive
+    z_threshold: 2.0
+    quantile: 0.95
+    epsilon: 1.0e-6
+    std_ddof: 1
+    # Used only when both sides meet the threshold and the z-scores are equal.
+    tie_break: externally_driven
+    # Applied only if the validation prevalence check below fails.
+    confirmation_grid:
+      z_threshold: [1.5, 2.0, 2.5]
+      quantile: [0.90, 0.95, 0.99]
+    degenerate_if:
+      anomaly_prevalence_min: 0.005
+      anomaly_prevalence_max: 0.30
+      minority_driver_share_min: 0.10
+    # Extra floor on the week's inbound or outbound count. 0 means off.
+    # Raise only after inspecting zero-variance baselines on the validation split.
+    min_event_count: 0
+
+models:
+  bot_detection: false
+  user_id_as_feature: false
+  booster: xgboost
+
+outputs:
+  edges: data/processed/{platform}/edges.parquet
+  panel: data/processed/{platform}/panel.parquet
+  labels: data/processed/{platform}/labels.parquet
+  features: data/processed/{platform}/features.parquet
+  ingest_report: data/processed/{platform}/ingest_report.json
+  label_config: data/processed/{platform}/label_config.json
