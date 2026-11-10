@@ -1,0 +1,180 @@
+{
+  "platform": "mathoverflow",
+  "schema_version": 1,
+  "accepted": true,
+  "stop_reasons": [],
+  "sources": {
+    "a2q": {
+      "url": "https://snap.stanford.edu/data/sx-mathoverflow-a2q.txt.gz",
+      "path": "data/raw/mathoverflow/sx-mathoverflow-a2q.txt.gz",
+      "sha256": "1e160dcd3e685f7467f4869451899bae0299016080ae994895a900b57812ca78"
+    },
+    "c2q": {
+      "url": "https://snap.stanford.edu/data/sx-mathoverflow-c2q.txt.gz",
+      "path": "data/raw/mathoverflow/sx-mathoverflow-c2q.txt.gz",
+      "sha256": "ee99942bc234cb3596e93a5c49ce8e3bd82af6dcca4adb687f287b2eef5f0a3e"
+    },
+    "c2a": {
+      "url": "https://snap.stanford.edu/data/sx-mathoverflow-c2a.txt.gz",
+      "path": "data/raw/mathoverflow/sx-mathoverflow-c2a.txt.gz",
+      "sha256": "bdfa7b71ba564c8b9307ae9892ab7138c35ac5a0e4a285cb9021d1e6598a27a4"
+    }
+  },
+  "rows_read": {
+    "definition": "lines remaining after blank lines and '#' comments are skipped, before any bad-parse drop",
+    "per_edge_type": {
+      "a2q": 107581,
+      "c2q": 203639,
+      "c2a": 195330
+    },
+    "total": 506550
+  },
+  "rows_dropped": {
+    "definition": "rows dropped because the line does not have exactly three fields or a field is not an int64; must be 0 to accept the file",
+    "per_edge_type": {
+      "a2q": 0,
+      "c2q": 0,
+      "c2a": 0
+    },
+    "total": 0
+  },
+  "bad_field_count_lines": {
+    "definition": "lines whose whitespace-separated field count is not 3",
+    "per_edge_type": {
+      "a2q": 0,
+      "c2q": 0,
+      "c2a": 0
+    },
+    "total": 0
+  },
+  "non_integer_fields": {
+    "definition": "fields that do not parse as base-10 integers",
+    "per_edge_type": {
+      "a2q": 0,
+      "c2q": 0,
+      "c2a": 0
+    },
+    "total": 0
+  },
+  "int64_out_of_range_fields": {
+    "definition": "integer fields that do not fit in int64",
+    "per_edge_type": {
+      "a2q": 0,
+      "c2q": 0,
+      "c2a": 0
+    },
+    "total": 0
+  },
+  "bad_parse_count": 0,
+  "parquet_path": "data/processed/mathoverflow/edges.parquet",
+  "self_loops_kept": {
+    "definition": "rows with src == dst; self-loops are kept",
+    "per_edge_type": {
+      "a2q": 3443,
+      "c2q": 56990,
+      "c2a": 55676
+    },
+    "total": 116109
+  },
+  "exact_duplicate_rows": {
+    "definition": "extra copies beyond the first of (edge_type, src, dst, ts), counted inside each edge type; copies are kept",
+    "per_edge_type": {
+      "a2q": 0,
+      "c2q": 16,
+      "c2a": 11
+    },
+    "total": 27
+  },
+  "src_dst_ts_under_multiple_types": {
+    "definition": "kept rows whose (src, dst, ts) occurs under more than one edge type; types are not collapsed",
+    "keys": 0,
+    "rows": 0
+  },
+  "ts": {
+    "min": 1254192988,
+    "max": 1457262355,
+    "min_utc": "2009-09-29T02:56:28Z",
+    "max_utc": "2016-03-06T11:05:55Z"
+  },
+  "week_start": {
+    "min": "2009-09-28",
+    "max": "2016-02-29"
+  },
+  "week_start_checks": {
+    "example_ts_1254192988": "2009-09-28",
+    "every_value_is_monday": true,
+    "matches_section_4_rule": true,
+    "problems": []
+  },
+  "distinct_users": {
+    "definition": "distinct ids in src, in dst, and in the union of both",
+    "overall": {
+      "src": 19774,
+      "dst": 21980,
+      "union": 24818
+    },
+    "per_edge_type": {
+      "a2q": {
+        "src": 10379,
+        "dst": 16005,
+        "union": 21688
+      },
+      "c2q": {
+        "src": 11653,
+        "dst": 15660,
+        "union": 16836
+      },
+      "c2a": {
+        "src": 11670,
+        "dst": 6891,
+        "union": 13840
+      }
+    }
+  },
+  "published_comparison": {
+    "temporal_edges": {
+      "a2q": {
+        "observed": 107581,
+        "published_temporal_edges": 107581,
+        "match": true
+      },
+      "c2q": {
+        "observed": 203639,
+        "published_temporal_edges": 203639,
+        "match": true
+      },
+      "c2a": {
+        "observed": 195330,
+        "published_temporal_edges": 195330,
+        "match": true
+      },
+      "union": {
+        "observed": 506550,
+        "published_temporal_edges": 506550,
+        "match": true
+      }
+    },
+    "nodes": {
+      "a2q": {
+        "distinct_endpoints": 21688,
+        "published_nodes": 21688,
+        "match": true
+      },
+      "c2q": {
+        "distinct_endpoints": 16836,
+        "published_nodes": 16836,
+        "match": true
+      },
+      "c2a": {
+        "distinct_endpoints": 13840,
+        "published_nodes": 13840,
+        "match": true
+      },
+      "union": {
+        "distinct_endpoints": 24818,
+        "published_nodes": 24818,
+        "match": true
+      }
+    }
+  }
+}

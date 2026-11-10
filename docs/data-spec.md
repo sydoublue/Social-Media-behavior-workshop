@@ -1,6 +1,6 @@
 # Data specification
 
-Executable contract for cleaning, the user-week panel, and labels. The next coding step is MathOverflow ingest (milestone M1). No step below has been run.
+Executable contract for cleaning, the user-week panel, and labels. MathOverflow ingest (milestone M1) has been run. The user-week panel, labels, and features have not.
 
 Defaults that appear as numbers are copied from `configs/default.yaml`. If this document and that file disagree, treat the YAML as the config future code will load, and update both in the same change.
 
@@ -58,7 +58,7 @@ Keep original ids. A later matrix format may remap ids, and that map must be one
 
 ## 3. Cleaning procedure
 
-Implement this order in `ingest`. The block is the specification, not a module that already runs.
+Implement this order in `ingest` (`src/ingest.py`).
 
 1. For each edge type, open the typed gzip as text.
 2. Drop blank lines and lines whose first non-whitespace character is `#`.
@@ -296,13 +296,15 @@ These are easy shortcuts that make a later metric incomparable with this plan.
 
 ## 10. Milestone M1 checklist (MathOverflow ingest)
 
-- [ ] Typed gz files downloaded under `data/raw/mathoverflow/` and left untracked (`git status` does not list them).
-- [ ] `data/processed/mathoverflow/edges.parquet` has exactly the columns in section 2.
-- [ ] Row counts: `a2q` 107,581, `c2q` 203,639, `c2a` 195,330.
-- [ ] Distinct users in the union of `src` and `dst`: 24,818. Per type: `a2q` 21,688, `c2q` 16,836, `c2a` 13,840.
-- [ ] Every `week_start` is a Monday and matches section 4.
-- [ ] Self-loop count and duplicate count are in `ingest_report.json`, and self-loops were not deleted.
-- [ ] Bad-parse count is 0.
-- [ ] Ask Ubuntu is not required for this checklist.
+Checked against the MathOverflow run of `python -m src.ingest --platform mathoverflow`. The verified report, including self-loops kept, exact-duplicate extras, and timestamp bounds, is `docs/mathoverflow-ingest-report.json`. The generated `data/processed/mathoverflow/ingest_report.json` is the same document and stays gitignored with the parquet.
+
+- [x] Typed gz files downloaded under `data/raw/mathoverflow/` and left untracked (`git status` does not list them).
+- [x] `data/processed/mathoverflow/edges.parquet` has exactly the columns in section 2.
+- [x] Row counts: `a2q` 107,581, `c2q` 203,639, `c2a` 195,330.
+- [x] Distinct users in the union of `src` and `dst`: 24,818. Per type: `a2q` 21,688, `c2q` 16,836, `c2a` 13,840.
+- [x] Every `week_start` is a Monday and matches section 4.
+- [x] Self-loop count and duplicate count are in `ingest_report.json`, and self-loops were not deleted.
+- [x] Bad-parse count is 0.
+- [x] Ask Ubuntu is not required for this checklist.
 
 Panel construction (M2) starts only after that report matches.

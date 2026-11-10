@@ -1,6 +1,8 @@
 # Processed tables
 
-Generated parquet and JSON reports belong here and are gitignored except this README and `.gitkeep`. Nothing has been generated yet.
+Generated parquet and JSON reports belong here and are gitignored except this README and `.gitkeep`.
+
+`python -m src.ingest --platform mathoverflow` writes `mathoverflow/edges.parquet` and `mathoverflow/ingest_report.json`. A verified copy of that report is committed at `docs/mathoverflow-ingest-report.json`. Panel, label, and feature files are not produced yet.
 
 Expected layout once ingest and the later steps exist (one directory per platform: `mathoverflow`, `askubuntu`, `superuser`):
 
